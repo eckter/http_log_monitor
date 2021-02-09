@@ -1,3 +1,4 @@
+import sys
 import time
 from ..models import LogEntry
 
@@ -21,7 +22,10 @@ class Runner:
             new_text = self.watched_file.read()
             if new_text:
                 for entry_txt in new_text.split("\n"):
-                    entry = LogEntry(entry_txt)
-                    self._register_entry(entry)
+                    try:
+                        entry = LogEntry(entry_txt)
+                        self._register_entry(entry)
+                    except RuntimeError:
+                        print("error: invalid log entry:", entry_txt, file=sys.stderr)
             else:
                 time.sleep(0.1)
