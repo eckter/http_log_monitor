@@ -1,6 +1,7 @@
 import sys
 import time
 from ..models import LogEntry
+from ..tasks import Stats
 
 
 class Runner:
@@ -9,7 +10,7 @@ class Runner:
     """
     def __init__(self, config_dict):
         # TODO fill tasks
-        self.tasks = []
+        self.tasks = [Stats(config_dict["stats"])]
         self.watched_file = open(config_dict["log_file"], "r")
         self.watched_file.seek(0, 2)    # skip to the end of file
 
@@ -17,15 +18,24 @@ class Runner:
         for task in self.tasks:
             task.register_entry(log_entry)
 
-    def run(self):
-        while True:
-            new_text = self.watched_file.read()
-            if new_text:
-                for entry_txt in new_text.split("\n"):
+    def _update_all_tasks(self):
+        for task in self.tasks:
+            task.update()
+
+    def _read_new_entries(self):
+        new_text = self.watched_file.read()
+        if new_text:
+            for entry_txt in new_text.split("\n"):
+                if entry_txt:
                     try:
                         entry = LogEntry(entry_txt)
                         self._register_entry(entry)
                     except RuntimeError:
                         print("error: invalid log entry:", entry_txt, file=sys.stderr)
-            else:
+        return len(new_text) > 0
+
+    def run(self):
+        while True:
+            if not self._read_new_entries():
                 time.sleep(0.1)
+            self._update_all_tasks()
