@@ -14,5 +14,5 @@ class Task:
     def _on_timer(self):
         pass
 
-    def register_entry(self):
+    def register_entry(self, entry):
         pass

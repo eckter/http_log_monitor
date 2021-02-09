@@ -1,6 +1,9 @@
-log_file: /tmp/access.log
-stats:
-        delay: 10 #seconds
-alerts:
-        average_over: 120 #seconds
-        request_frequency_threshold: 10 #requests per second
+log_file: test
+tasks:
+        stats:
+                delay: 10 #seconds
+                modules:
+                        - average_entry_count
+        alerts:
+                average_over: 120 #seconds
+                request_frequency_threshold: 10 #requests per second

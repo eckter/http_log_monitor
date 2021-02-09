@@ -1,3 +1,4 @@
+import importlib
 import sys
 import time
 from ..models import LogEntry
@@ -9,10 +10,11 @@ class Runner:
     This class manages running all the tasks and watching for file updates
     """
     def __init__(self, config_dict):
-        # TODO fill tasks
-        self.tasks = [Stats(config_dict["stats"])]
+        self.tasks = []
         self.watched_file = open(config_dict["log_file"], "r")
         self.watched_file.seek(0, 2)    # skip to the end of file
+
+        self.tasks.append(Stats(config_dict["tasks"]["stats"]))
 
     def _register_entry(self, log_entry):
         for task in self.tasks:
