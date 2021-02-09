@@ -1,5 +1,5 @@
 from .task import Task
-import time
+from datetime import datetime
 from log_monitor.tasks import stat_modules
 
 
@@ -7,7 +7,7 @@ class Stats(Task):
     def __init__(self, configs):
         super().__init__(configs["delay"])
         self.entries = []
-        self.begin = time.time()
+        self.begin = datetime.now()
         self.stat_modules = []
         self.load_modules(configs["modules"])
 
@@ -16,8 +16,8 @@ class Stats(Task):
             self.stat_modules.append(getattr(stat_modules, module))
 
     def _on_timer(self):
-        end = time.time()
-        time_elapsed = end - self.begin
+        end = datetime.now()
+        time_elapsed = (end - self.begin).total_seconds()
         print(f"Statistics from {self.begin} to {end}:")
         for module in self.stat_modules:
             module(self.entries, time_elapsed)
