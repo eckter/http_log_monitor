@@ -1,11 +1,11 @@
 log_file: test
 tasks:
-        stats:
+        Stats:
                 delay: 10 #seconds
                 modules:
                         - average_entry_count
                         - print_most_hit
-        alerts:
+        Alerts:
                 average_over: 120 #seconds
                 request_frequency_threshold: 10 #requests per second
                 update_time: 1 #seconds
