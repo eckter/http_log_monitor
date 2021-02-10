@@ -21,8 +21,8 @@ class LogEntry:
         self.time = entry_dict["time"]
         self.timezone = entry_dict["timezone"]
         self.request = entry_dict["r"]
-        self.status = entry_dict["s"]
-        self.size = entry_dict["b"]
+        self.status = int(entry_dict["s"])
+        self.size = int(entry_dict["b"])
         self.referer = entry_dict["Referer"]
         self.user_agent = entry_dict["Useragent"]
 
