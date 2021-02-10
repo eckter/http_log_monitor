@@ -5,11 +5,11 @@ from log_monitor.tasks import stat_modules
 
 class Stats(Task):
     def __init__(self, configs):
-        super().__init__(configs["delay"])
+        super().__init__(configs.get("delay", 10))
         self.entries = []
         self.begin = datetime.now()
         self.stat_modules = []
-        self.load_modules(configs["modules"])
+        self.load_modules(configs.get("modules", []))
 
     def load_modules(self, modules_list):
         for module in modules_list:
