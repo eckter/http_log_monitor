@@ -2,7 +2,7 @@ import importlib
 import sys
 import time
 from ..models import LogEntry
-from ..tasks import Stats
+from ..tasks import Stats, Alerts
 
 
 class Runner:
@@ -15,6 +15,7 @@ class Runner:
         self.watched_file.seek(0, 2)    # skip to the end of file
 
         self.tasks.append(Stats(config_dict["tasks"]["stats"]))
+        self.tasks.append(Alerts(config_dict["tasks"]["alerts"]))
 
     def _register_entry(self, log_entry):
         for task in self.tasks:

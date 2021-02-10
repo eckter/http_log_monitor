@@ -8,3 +8,4 @@ tasks:
         alerts:
                 average_over: 120 #seconds
                 request_frequency_threshold: 10 #requests per second
+                update_time: 1 #seconds
