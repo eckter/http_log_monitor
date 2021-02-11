@@ -1,17 +1,19 @@
 from .task import Task
 from datetime import datetime
 from log_monitor.tasks import stat_modules
+from log_monitor.models import LogEntry
+from typing import List
 
 
 class Stats(Task):
-    def __init__(self, configs):
+    def __init__(self, configs: dict):
         super().__init__(configs.get("delay", 10))
         self.entries = []
         self.begin = datetime.now()
         self.stat_modules = []
-        self.load_modules(configs.get("modules", []))
+        self._load_modules(configs.get("modules", []))
 
-    def load_modules(self, modules_list):
+    def _load_modules(self, modules_list: List[str]):
         for module in modules_list:
             self.stat_modules.append(getattr(stat_modules, module))
 
@@ -24,5 +26,5 @@ class Stats(Task):
         self.entries = []
         self.begin = end
 
-    def register_entry(self, entry):
+    def register_entry(self, entry: LogEntry):
         self.entries.append(entry)

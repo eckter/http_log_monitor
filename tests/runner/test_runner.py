@@ -6,7 +6,7 @@ from mock import patch
 tmp_file = "./tmp"
 
 
-def base_conf():
+def _base_conf() -> dict:
     conf_dict = {
         "log_file": tmp_file,
         "tasks": {
@@ -18,7 +18,7 @@ def base_conf():
 
 @patch("log_monitor.runner.Runner._register_entry")
 def test_runner__read_new_lines(mock_register_entry):
-    conf_dict = base_conf()
+    conf_dict = _base_conf()
     with open(tmp_file, "w") as f:
         runner = Runner(conf_dict)
         print("new line 1", file=f)
@@ -33,7 +33,7 @@ def test_runner__read_new_lines(mock_register_entry):
 
 @patch("log_monitor.runner.Runner._register_entry")
 def test_runner__ignore_existing_lines(mock_register_entry):
-    conf_dict = base_conf()
+    conf_dict = _base_conf()
     with open(tmp_file, "w") as f:
         print("new line 1", file=f)
         print("new line 2", file=f, flush=True)
@@ -45,16 +45,16 @@ def test_runner__ignore_existing_lines(mock_register_entry):
 
 @patch("log_monitor.tasks.Stats")
 def test_runner__init_tasks(mock_stats):
-    conf_dict = base_conf()
-    with open(tmp_file, "w") as f:
+    conf_dict = _base_conf()
+    with open(tmp_file, "w"):
         Runner(conf_dict)
     mock_stats.assert_called_with({1: 1})
 
 
 @patch("log_monitor.tasks.Stats.register_entry")
 def test_runner__register_entry(mock_register_entry):
-    conf_dict = base_conf()
-    with open(tmp_file, "w") as f:
+    conf_dict = _base_conf()
+    with open(tmp_file, "w"):
         runner = Runner(conf_dict)
     log_txt = '127.0.0.1 - james [09/May/2018:16:00:39 +0000] "GET /report HTTP/1.0" 200 123'
     runner._register_entry(log_txt)
@@ -65,8 +65,8 @@ def test_runner__register_entry(mock_register_entry):
 
 @patch("log_monitor.tasks.task.Task.update")
 def test_runner__call_update(mock_update):
-    conf_dict = base_conf()
-    with open(tmp_file, "w") as f:
+    conf_dict = _base_conf()
+    with open(tmp_file, "w"):
         runner = Runner(conf_dict)
     runner._update_all_tasks()
     mock_update.assert_called()

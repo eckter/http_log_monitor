@@ -21,10 +21,10 @@ def test_log_entry__valid():
 def test_log_entry__missing_quote():
     log_txt = '127.0.0.1 - james [09/May/2018:16:00:39 +0000] "GET /report HTTP/1.0 200 123'
     with pytest.raises(RuntimeError):
-        entry = LogEntry(log_txt)
+        LogEntry(log_txt)
 
 
 def test_log_entry__missing_field():
     log_txt = '127.0.0.1 - james [09/May/2018:16:00:39 +0000] "GET /report HTTP/1.0 200'
     with pytest.raises(RuntimeError):
-        entry = LogEntry(log_txt)
+        LogEntry(log_txt)

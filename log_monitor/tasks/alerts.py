@@ -2,10 +2,11 @@ from .task import Task
 from collections import deque
 from datetime import datetime
 from time import time
+from log_monitor.models import LogEntry
 
 
 class Alerts(Task):
-    def __init__(self, configs):
+    def __init__(self, configs: dict):
         super().__init__(configs.get("update_time", 1))
         self.average_over = configs.get("average_over", 120)
         self.threshold_per_sec = configs.get("request_frequency_threshold", 10)
@@ -34,7 +35,7 @@ class Alerts(Task):
             print(f"Alert: recovered at {datetime.now()}, after {duration}s")
             self.is_alert = False
 
-    def _actual_average_duration(self):
+    def _actual_average_duration(self) -> float:
         begin_average = time() - self.average_over
         begin_run = self.start_time
         if begin_average < begin_run:
@@ -42,7 +43,7 @@ class Alerts(Task):
         else:
             return self.average_over
 
-    def _is_over_threshold(self, n_entries):
+    def _is_over_threshold(self, n_entries: int) -> bool:
         entries_per_sec = n_entries / self._actual_average_duration()
         return entries_per_sec > self.threshold_per_sec
 
@@ -59,7 +60,6 @@ class Alerts(Task):
                 f"{self.threshold_per_sec} (currently at {average_per_second}/s)"
             print(msg)
 
-    def register_entry(self, entry):
+    def register_entry(self, entry: LogEntry):
         self.entry_times.append(time())
         self._check_alert_begin()
-

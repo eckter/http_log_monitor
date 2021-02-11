@@ -1,4 +1,4 @@
-from log_monitor.tasks.stat_modules.most_hit import *
+from log_monitor.tasks.stat_modules.most_hit import _section_from_entry, _section_most_hit, _get_hits_per_section
 from log_monitor.models import LogEntry
 import pytest
 
@@ -24,11 +24,11 @@ def test_section_from_entry(request_txt, section):
     entry = base_entry
     print(entry.request)
     entry.request = request_txt
-    assert section_from_entry(entry) == section
+    assert _section_from_entry(entry) == section
 
 
 def test_get_hits_per_section():
-    result = get_hits_per_section(base_entries)
+    result = _get_hits_per_section(base_entries)
     assert result == {
         "/report": 2,
         "/api": 1
@@ -36,6 +36,6 @@ def test_get_hits_per_section():
 
 
 def test_section_most_hit():
-    section, percent = section_most_hit(base_entries)
+    section, percent = _section_most_hit(base_entries)
     assert section == "/report"
     assert percent == 66

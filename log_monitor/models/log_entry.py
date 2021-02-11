@@ -1,14 +1,15 @@
 from clfparser import CLFParser
+from typing import Dict
 
 
 class LogEntry:
     """
     Represents the content of an entry following Common Log Format
     """
-    def __init__(self, string_entry):
+    def __init__(self, string_entry: str):
         try:
             entry_dict = CLFParser.logDict(string_entry)
-        except ValueError as e:
+        except ValueError:
             raise RuntimeError("Invalid log entry")
 
         if not self._is_valid(entry_dict):
@@ -27,7 +28,7 @@ class LogEntry:
         self.user_agent = entry_dict["Useragent"]
 
     @staticmethod
-    def _is_valid(entry_dict):
+    def _is_valid(entry_dict: Dict[str, str]) -> bool:
         for v in entry_dict.values():
             if v:
                 return True

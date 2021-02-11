@@ -1,8 +1,9 @@
 import time
+from log_monitor.models import LogEntry
 
 
 class Task:
-    def __init__(self, interval):
+    def __init__(self, interval: float):
         self.interval = interval
         self.next_timer = time.time() + interval
 
@@ -14,5 +15,5 @@ class Task:
     def _on_timer(self):
         pass
 
-    def register_entry(self, entry):
+    def register_entry(self, entry: LogEntry):
         pass

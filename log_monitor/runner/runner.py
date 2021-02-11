@@ -1,4 +1,3 @@
-import importlib
 import sys
 import time
 from ..models import LogEntry
@@ -9,7 +8,7 @@ class Runner:
     """
     This class manages running all the tasks and watching for file updates
     """
-    def __init__(self, config_dict):
+    def __init__(self, config_dict: dict):
         self.tasks = []
         self.watched_file = open(config_dict["log_file"], "r")
         self.watched_file.seek(0, 2)    # skip to the end of file
@@ -19,7 +18,7 @@ class Runner:
             task = getattr(tasks, class_name)
             self.tasks.append(task(conf))
 
-    def _register_entry(self, entry_txt):
+    def _register_entry(self, entry_txt: str):
         try:
             entry = LogEntry(entry_txt)
             for task in self.tasks:
@@ -31,7 +30,7 @@ class Runner:
         for task in self.tasks:
             task.update()
 
-    def _read_new_entries(self):
+    def _read_new_entries(self) -> bool:
         new_text = self.watched_file.read()
         if new_text:
             for entry_txt in new_text.split("\n"):
