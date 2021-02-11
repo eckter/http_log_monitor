@@ -17,7 +17,7 @@ base_entries = [
     ('"GET /report/foo HTTP/1.0"', "/report"),
     ('"GET /foo/bar HTTP/1.0"', "/foo"),
     ('"POST /foo/bar HTTP/42.0"', "/foo"),
-    ('"POST /foo/bar/toto/tata HTTP/42.0"', "/foo"),
+    ('"POST /foo/bar/toto/foo HTTP/42.0"', "/foo"),
     ('"POST foo HTTP/42.0"', "foo"),
 ])
 def test_section_from_entry(request_txt, section):

@@ -3,6 +3,10 @@ import sys
 
 
 def main(argv):
+    """
+
+    :param argv:
+    """
     if len(argv) > 1:
         configs = load_config(argv[1])
     else:
