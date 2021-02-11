@@ -6,13 +6,15 @@ from time import time
 
 class Alerts(Task):
     def __init__(self, configs):
-        super().__init__(configs["update_time"])
+        super().__init__(configs.get("update_time", 1))
         self.average_over = configs.get("average_over", 120)
         self.threshold_per_sec = configs.get("request_frequency_threshold", 10)
         self.threshold = self.threshold_per_sec * self.average_over
         self.entry_times = deque()
         self.is_over_threshold = False
         self.begin_alert = None
+
+        assert self.average_over > 0, "average duration must be positive"
 
     def _remove_old_elements(self):
         while self.entry_times:
