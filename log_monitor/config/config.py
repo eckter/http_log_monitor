@@ -1,11 +1,13 @@
 import sys
 import yaml
+from pathlib import Path
 
 
 def default_config():
-    return {
-        "log_file": "/tmp/access.log"
-    }
+    root = Path(__file__).parents[2]
+    default_config_path = root / "config_default.yml"
+    with open(default_config_path, "r") as f:
+        return yaml.safe_load(f)
 
 
 def load_config(path):
