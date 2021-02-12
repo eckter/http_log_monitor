@@ -2,3 +2,7 @@
 /venv
 __pycache__
 tmp
+/build/
+/datadog_log_monitor.egg-info/
+/dist/
+/env/

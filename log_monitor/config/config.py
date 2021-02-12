@@ -9,7 +9,7 @@ def default_config() -> dict:
     It reads the config file at the root of the repository
     :return: default configuration dict
     """
-    root = Path(__file__).parents[2]
+    root = Path(__file__).parent
     default_config_path = root / "config_default.yml"
     with open(default_config_path, "r") as f:
         return yaml.safe_load(f)
