@@ -40,7 +40,7 @@ class Stats(Task):
         """
         end = datetime.now()
         time_elapsed = (end - self.begin).total_seconds()
-        print(f"Statistics from {self.begin} to {end}:")
+        print(f"\n\nStatistics from {self.begin} to {end}:")
         for module in self.stat_modules:
             module(self.entries, time_elapsed)
         self.entries = []

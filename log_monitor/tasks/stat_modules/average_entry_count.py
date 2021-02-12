@@ -19,4 +19,5 @@ def average_entry_count(entries: List[LogEntry], interval_duration: float):
     :param interval_duration: length of the interval
     """
     average = _compute_average_entry_count(entries, interval_duration)
-    print("average log entry per second: ", average)
+    average = round(average, 2)
+    print("Average log entry per second: ", average)
