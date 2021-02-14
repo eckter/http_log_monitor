@@ -44,3 +44,16 @@ class LogEntry:
             if v:
                 return True
         return False
+
+    def __eq__(self, other):
+        """
+        Tests for equality between self and an other instance
+
+        This is mostly used for unit tests
+
+        :param other: other instance
+        :return: is equal
+        """
+        if not isinstance(other, LogEntry):
+            return False
+        return self.__dict__ == other.__dict__

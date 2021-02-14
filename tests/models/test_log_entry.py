@@ -25,6 +25,13 @@ def test_log_entry__missing_quote():
 
 
 def test_log_entry__missing_field():
-    log_txt = '127.0.0.1 - james [09/May/2018:16:00:39 +0000] "GET /report HTTP/1.0 200'
+    log_txt = '127.0.0.1 - james [09/May/2018:16:00:39 +0000] "GET /report HTTP/1.0" 200'
     with pytest.raises(RuntimeError):
         LogEntry(log_txt)
+
+
+def test_log_entry__equality_op():
+    log_txt = '127.0.0.1 - james [09/May/2018:16:00:39 +0000] "GET /report HTTP/1.0" 200 123'
+    log2_txt = '127.0.0.0 - james [09/May/2018:16:00:39 +0000] "GET /report HTTP/1.0" 200 123'
+    assert LogEntry(log_txt) == LogEntry(log_txt)
+    assert LogEntry(log_txt) != LogEntry(log2_txt)
