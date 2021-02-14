@@ -64,8 +64,12 @@ class Runner:
     def run(self):
         """
         Runs all the tasks, watching for file update and running timed events (blocking)
+        Stops on KeyboardInterrupts
         """
         while True:
-            if not self._read_new_entries(False):
-                time.sleep(0.1)
-            self._update_all_tasks()
+            try:
+                if not self._read_new_entries(False):
+                    time.sleep(0.1)
+                self._update_all_tasks()
+            except KeyboardInterrupt:
+                break
