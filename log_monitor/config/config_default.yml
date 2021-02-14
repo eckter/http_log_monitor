@@ -1,12 +1,19 @@
-log_file: test
+# Path to the log file to monitor
+log_file: /tmp/access.log
+
+# Lists of tasks to run, they can be removed or added
 tasks:
+        # Every few seconds, displays stats about the requests received since last time
         Stats:
-                delay: 10 #seconds
+                update_interval: 10 # time between each update, in seconds
+
+                # list of modules to run, in log_monitor.tasks.stat_modules
                 modules:
-                        - average_entry_count
-                        - print_most_hit
-                        - error_reporting
+                        - average_entry_count # prints the average number of request per second
+                        - print_most_hit # prints the section with most hits
+                        - error_reporting # prints some stats on http errors (4xx and 5xx)
+        # Prints alerts when the average requests per seconds is above some threshold
         Alerts:
-                average_over: 120 #seconds
-                request_frequency_threshold: 10 #requests per second
-                update_time: 1 #seconds
+                update_interval: 10 # time between each update when checking start and end of alerts, in seconds
+                average_over: 120 # duration over which we average the requests per seconds
+                request_frequency_threshold: 10 # threshold, in average requests per second

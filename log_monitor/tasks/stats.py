@@ -13,14 +13,14 @@ class Stats(Task):
     as well as the interval length in seconds
 
     The configuration dict is expected to be as follow:
-        config["delay"]: duration (s) between each update, defaults to 10
+        config["update_interval"]: duration (s) between each update, defaults to 10
         config["modules"]: list of module names to be loaded in stat_modules
     """
     def __init__(self, configs: dict):
         """
         :param configs: config dictionary
         """
-        super().__init__(configs.get("delay", 10))
+        super().__init__(configs.get("update_interval", 10))
         self.entries = []
         self.begin = datetime.now()
         self.stat_modules = []

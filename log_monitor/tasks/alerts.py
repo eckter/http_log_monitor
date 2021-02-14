@@ -14,7 +14,7 @@ class Alerts(Task):
     and watching when the length of the queue reaches the threshold
 
     The configuration dict is expected to be as follow:
-        config["update_time"]: duration (s) between each update where we look for end of alert, defaults to 1
+        config["update_interval"]: duration (s) between each update where we look for end of alert, defaults to 1
         config["average_over"]: duration over which we average the requests per seconds, defaults to 120
         config["request_frequency_threshold"]: request / second threshold, defaults to 10
     """
@@ -22,7 +22,7 @@ class Alerts(Task):
         """
         :param configs: config dictionary
         """
-        super().__init__(configs.get("update_time", 1))
+        super().__init__(configs.get("update_interval", 1))
         self.average_over = configs.get("average_over", 120)
         self.threshold_per_sec = configs.get("request_frequency_threshold", 10)
         self.entry_times = deque()
