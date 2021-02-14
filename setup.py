@@ -13,7 +13,6 @@ setup(
     install_requires=[
         "clfparser==0.3",
         "mock==4.0.3",
-        "pathlib==1.0.1",
         "pytest==6.2.2",
         "pyyaml==5.4.1",
         "freezegun==1.1.0",
