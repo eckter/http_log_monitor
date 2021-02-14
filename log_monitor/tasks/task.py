@@ -28,7 +28,15 @@ class Task:
     def register_entry(self, entry: LogEntry):
         """
         This method is called whenever a new entry is written to the file
-        to be overwritten with inheritance
+        to be overwritten with inheritance when needed
         :param entry: new log entry
+        """
+        pass
+
+    def register_old_entry(self, entry: LogEntry):
+        """
+        This method is called for each entry already present in the file before startup
+        to be overwritten with inheritance when needed
+        :param entry: log entry
         """
         pass

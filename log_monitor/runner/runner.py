@@ -19,22 +19,26 @@ class Runner:
         """
         self.tasks = []
         self.watched_file = open(config_dict["log_file"], "r")
-        self.watched_file.seek(0, 2)    # skip to the end of file
 
         task_config = config_dict.get("tasks", {})
         for class_name, conf in task_config.items():
             task = getattr(tasks, class_name)
             self.tasks.append(task(conf))
+        self._read_new_entries(True)
 
-    def _register_entry(self, entry_txt: str) -> None:
+    def _register_entry(self, entry_txt: str, old: bool) -> None:
         """
         Manages a new line written to the file, forwarding it to the tasks
         :param entry_txt: CLF string
+        :param old: True if it's an entry from before startup time
         """
         try:
             entry = LogEntry(entry_txt)
             for task in self.tasks:
-                task.register_entry(entry)
+                if old:
+                    task.register_old_entry(entry)
+                else:
+                    task.register_entry(entry)
         except RuntimeError:
             print("error: invalid log entry:", entry_txt, file=sys.stderr)
 
@@ -45,7 +49,7 @@ class Runner:
         for task in self.tasks:
             task.update()
 
-    def _read_new_entries(self) -> bool:
+    def _read_new_entries(self, is_first_read: bool) -> bool:
         """
         Read the file to look for new entries
         :return: True if something was written since last update
@@ -54,7 +58,7 @@ class Runner:
         if new_text:
             for entry_txt in new_text.split("\n"):
                 if entry_txt:
-                    self._register_entry(entry_txt)
+                    self._register_entry(entry_txt, is_first_read)
         return len(new_text) > 0
 
     def run(self):
@@ -62,6 +66,6 @@ class Runner:
         Runs all the tasks, watching for file update and running timed events (blocking)
         """
         while True:
-            if not self._read_new_entries():
+            if not self._read_new_entries(False):
                 time.sleep(0.1)
             self._update_all_tasks()
