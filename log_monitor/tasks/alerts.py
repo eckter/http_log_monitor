@@ -100,8 +100,6 @@ class Alerts(Task):
         # converts to seconds since epoch
         diff_from_now = (datetime.now(timezone.utc) - entry.time).total_seconds()
         entry_time = time() - diff_from_now
-        print(datetime.now(timezone.utc), entry.time)
-        print(diff_from_now)
 
         self.entry_times.append(entry_time)
         self._remove_old_elements()
