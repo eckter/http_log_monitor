@@ -1,6 +1,6 @@
 from .task import Task
 from collections import deque
-from datetime import datetime
+from datetime import datetime, timezone
 from time import time
 from log_monitor.models import LogEntry
 
@@ -47,6 +47,7 @@ class Alerts(Task):
         """
         Called once every {config["update_time"]} seconds. We check for end of alert mode here
         """
+        self._check_alert_begin()
         self._check_alert_end()
 
     def _check_alert_end(self) -> None:
@@ -90,4 +91,17 @@ class Alerts(Task):
         :param entry: new log entry
         """
         self.entry_times.append(time())
-        self._check_alert_begin()
+
+    def register_old_entry(self, entry: LogEntry):
+        """
+        Registers an entry already present in the file when the monitor started
+        :param entry: log entry
+        """
+        # converts to seconds since epoch
+        diff_from_now = (datetime.now(timezone.utc) - entry.time).total_seconds()
+        entry_time = time() - diff_from_now
+        print(datetime.now(timezone.utc), entry.time)
+        print(diff_from_now)
+
+        self.entry_times.append(entry_time)
+        self._remove_old_elements()

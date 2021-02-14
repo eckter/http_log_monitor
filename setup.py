@@ -16,6 +16,7 @@ setup(
         "pathlib==1.0.1",
         "pytest==6.2.2",
         "pyyaml==5.4.1",
+        "freezegun==1.1.0",
         "wheel",
     ],
     author='Eloi Charpentier',
