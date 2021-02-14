@@ -12,7 +12,7 @@ It works like a usual python package:
 
 For development, it is advised to create a virtual environment
 (through venv, conda, or similar) and
-`pip install -r requirements.txt`
+`pip install -e .`
 
 ### Usage
 
@@ -22,6 +22,8 @@ pass a config file as parameter (ie. `datadog_log_monitor config.yml`)
 
 By default stats will be displayed every 10 seconds, and alerts
 raised when we register too many requests.
+
+To exit, send a keyboard interrupt signal (ctrl-C)
 
 
 ### Config file
