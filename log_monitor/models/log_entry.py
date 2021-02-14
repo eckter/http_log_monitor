@@ -26,12 +26,14 @@ class LogEntry:
         self.host = entry_dict["h"]
         self.identity = entry_dict["l"]
         self.user_id = entry_dict["u"]
-        self.time = datetime.strptime(entry_dict['t'][1:-1], '%d/%b/%Y:%H:%M:%S %z').astimezone(timezone.utc)
         self.request = entry_dict["r"]
         self.status = int(entry_dict["s"])
         self.size = int(entry_dict["b"])
         self.referer = entry_dict["Referer"]
         self.user_agent = entry_dict["Useragent"]
+
+        # clfparser handles dates in a weird way (ignoring timezones)
+        self.time = datetime.strptime(entry_dict['t'][1:-1], '%d/%b/%Y:%H:%M:%S %z').astimezone(timezone.utc)
 
     @staticmethod
     def _is_valid(entry_dict: Dict[str, str]) -> bool:
