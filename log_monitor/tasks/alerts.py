@@ -13,10 +13,6 @@ class Alerts(Task):
     this is done using a queue of request times, removing a request when it falls outside of the interval
     and watching when the length of the queue reaches the threshold
 
-    When the program has been running for less that {average_over} seconds, it checks the average since start time
-    so that if we average over 10 minutes, and the first few seconds are way beyond the threshold, we report the
-    alert immediately
-
     The configuration dict is expected to be as follow:
         config["update_time"]: duration (s) between each update where we look for end of alert, defaults to 1
         config["average_over"]: duration over which we average the requests per seconds, defaults to 120
@@ -63,27 +59,13 @@ class Alerts(Task):
             print(f"Alert: recovered at {datetime.now()}, after {duration}s")
             self.is_alert = False
 
-    def _actual_average_duration(self) -> float:
-        """
-        Computes how long is the interval we're averaging over
-
-        It may be shorter when the program started recently
-        :return: duration in seconds
-        """
-        begin_average = time() - self.average_over
-        begin_run = self.start_time
-        if begin_average < begin_run:
-            return max(1., time() - begin_run)
-        else:
-            return self.average_over
-
     def _is_over_threshold(self, n_entries: int) -> bool:
         """
         Checks if n entries in the queue is over the threshold
         :param n_entries: number of registered entries
         :return: true if it is over
         """
-        entries_per_sec = n_entries / self._actual_average_duration()
+        entries_per_sec = n_entries / self.average_over
         return entries_per_sec > self.threshold_per_sec
 
     def _check_alert_begin(self) -> None:
@@ -91,7 +73,7 @@ class Alerts(Task):
         Checks if we enter alert mode
         """
         self._remove_old_elements()
-        average_duration = self._actual_average_duration()
+        average_duration = self.average_over
         if not self.is_alert and self._is_over_threshold(len(self.entry_times)):
             self.is_alert = True
             self.begin_alert = datetime.now()

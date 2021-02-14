@@ -65,17 +65,6 @@ def test_alerts__check_alert_begin(mock_time):
 
 
 @patch("log_monitor.tasks.alerts.time")
-def test_alerts__check_alert_begin_early(mock_time):
-    conf_dict = _make_config(average_over=1000, threshold=10)
-    mock_time.return_value = 0
-    alerts = Alerts(conf_dict)
-    mock_time.return_value = 2
-    for _ in range(1000):
-        alerts.register_entry(base_entry)
-    assert alerts.is_alert
-
-
-@patch("log_monitor.tasks.alerts.time")
 def test_alerts__check_alert_end(mock_time):
     conf_dict = _make_config(average_over=10, threshold=10)
     mock_time.return_value = 0
