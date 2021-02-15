@@ -5,6 +5,17 @@ set -e
 cd "$(dirname "$0")"
 
 
+echo "setting up the environment"
+
+
+rm -rf env
+python -m venv env
+. env/bin/activate
+
+python -m pip install -e .. >/dev/null 2>&1
+
+
+
 echo "running unit tests:"
 
 cd ..
@@ -27,13 +38,6 @@ tasks:
                 average_over: 3 # duration over which we average the requests per seconds
                 request_frequency_threshold: 1 # threshold, in average requests per second
 EOF
-
-rm -rf env
-python -m venv env
-. env/bin/activate
-
-python -m pip install -e .. >/dev/null 2>&1
-
 
 echo -n > test_file
 datadog_log_monitor conf.yml > out 2> err &
