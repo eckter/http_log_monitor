@@ -40,7 +40,7 @@ class Runner:
                 else:
                     task.register_entry(entry)
         except RuntimeError:
-            print("error: invalid log entry:", entry_txt, file=sys.stderr)
+            print("error: invalid log entry:", entry_txt, file=sys.stderr, flush=True)
 
     def _update_all_tasks(self) -> None:
         """

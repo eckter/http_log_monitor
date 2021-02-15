@@ -5,6 +5,7 @@ an HTTP log monitor.
 
 It reads a file text continuously, and displays stats and alerts.
 
+
 ### Installation
 
 It works like a usual python package:
@@ -13,6 +14,7 @@ It works like a usual python package:
 For development, it is advised to create a virtual environment
 (through venv, conda, or similar) and
 `pip install -e .`
+
 
 ### Usage
 
@@ -32,3 +34,6 @@ The configuration file is a yaml, a documented example with default values
 is at the root of the project (config_default.yml).
 
 
+### Tests
+
+To run tests, run `./tests/run_tests.sh`

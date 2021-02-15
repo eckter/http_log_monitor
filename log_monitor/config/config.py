@@ -26,6 +26,6 @@ def load_config(path: str) -> dict:
         try:
             return yaml.safe_load(f)
         except yaml.YAMLError as exc:
-            print("error when loading config file:", exc, file=sys.stderr)
-            print("fallback to default configs", file=sys.stderr)
+            print("error when loading config file:", exc, file=sys.stderr, flush=True)
+            print("fallback to default configs", file=sys.stderr, flush=True)
             return default_config()

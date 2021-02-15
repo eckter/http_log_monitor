@@ -57,7 +57,7 @@ class Alerts(Task):
         self._remove_old_elements()
         if self.is_alert and not self._is_over_threshold(len(self.entry_times)):
             duration = (datetime.now() - self.begin_alert).total_seconds()
-            print(f"Alert: recovered at {datetime.now()}, after {duration}s")
+            print(f"Alert: recovered at {datetime.now()}, after {duration}s", flush=True)
             self.is_alert = False
 
     def _is_over_threshold(self, n_entries: int) -> bool:
@@ -83,7 +83,7 @@ class Alerts(Task):
                 f"Average requests per second in the " + \
                 f"last {average_duration}s went over the threshold of " + \
                 f"{self.threshold_per_sec} (currently at {average_per_second}/s)"
-            print(msg)
+            print(msg, flush=True)
 
     def register_entry(self, entry: LogEntry):
         """

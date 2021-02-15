@@ -43,6 +43,7 @@ class Stats(Task):
         print(f"\n\nStatistics from {self.begin} to {end}:")
         for module in self.stat_modules:
             module(self.entries, time_elapsed)
+        print(flush=True)
         self.entries = []
         self.begin = end
 
