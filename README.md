@@ -1,7 +1,8 @@
-## Datadog recruitment project: CLF log monitor
+## recruitment project: CLF log monitor
 
-This is my implementation of Datadog "take home project":
-an HTTP log monitor.
+This is my implementation of a "take home project" I was given
+by a company for its recruitement process.
+It consists in an HTTP log monitor.
 
 It reads a file text continuously, and displays stats and alerts.
 
@@ -18,9 +19,9 @@ For development, it is advised to create a virtual environment
 
 ### Usage
 
-Once installed, you can run the `datadog_log_monitor` command anywhere.
+Once installed, you can run the `log_monitor` command anywhere.
 By default the default config is loaded, but you can also
-pass a config file as parameter (ie. `datadog_log_monitor config.yml`)
+pass a config file as parameter (ie. `log_monitor config.yml`)
 
 By default stats will be displayed every 10 seconds, and alerts
 raised when we register too many requests.

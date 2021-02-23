@@ -26,7 +26,7 @@ cd -
 echo "\n\nrunning shell tests"
 
 
-trap "killall datadog_log_monitor" EXIT
+trap "killall log_monitor" EXIT
 
 
 
@@ -40,7 +40,7 @@ tasks:
 EOF
 
 echo -n > test_file
-datadog_log_monitor conf.yml > out 2> err &
+log_monitor conf.yml > out 2> err &
 sleep 3
 
 for i in `seq 2`; do
